@@ -35,27 +35,44 @@ public class SpawnController : MonoBehaviour
     {
         if (CollisionController.gameOver) return;
 
-        if (Input.GetMouseButtonDown(0) && !timer_set)
+        bool shouldSpawn = false;
+        Vector2 clickPosition = Vector2.zero;
+
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector2 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            clickPosition.y = height;
+            shouldSpawn = true;
+            clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
 
-            if (clickPosition.x > leftBound && clickPosition.x < rightBound)
-            {
-                timer_set = true;
-                StartCoroutine(Cooldown());
+        if (Input.touchCount > 0)
+        {
+            shouldSpawn = true;
+            clickPosition = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+        }
 
-                CollisionController collisionController = prefabToSpawn[nextCircle].GetComponent<CollisionController>();
-                ScoreCounter.Score += collisionController.addScore;
-                Instantiate(prefabToSpawn[nextCircle], clickPosition, Quaternion.identity);
+        if (timer_set)
+            shouldSpawn = false;
 
-                if (TutorialTextObject.activeInHierarchy == true)
-                    TutorialTextObject.SetActive(false);
+        if (!shouldSpawn)
+            return;
 
-                PlayAudio();
+        clickPosition.y = height;
 
-                SpawnNewShowCircle();
-            }
+        if (clickPosition.x > leftBound && clickPosition.x < rightBound)
+        {
+            timer_set = true;
+            StartCoroutine(Cooldown());
+
+            CollisionController collisionController = prefabToSpawn[nextCircle].GetComponent<CollisionController>();
+            ScoreCounter.Score += collisionController.addScore;
+            Instantiate(prefabToSpawn[nextCircle], clickPosition, Quaternion.identity);
+
+            if (TutorialTextObject.activeInHierarchy == true)
+                TutorialTextObject.SetActive(false);
+
+            PlayAudio();
+
+            SpawnNewShowCircle();
         }
     }
 
