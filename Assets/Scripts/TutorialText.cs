@@ -10,7 +10,7 @@ public class TutorialText : MonoBehaviour
 
     void Start()
     {
-        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        if (Application.isMobilePlatform)
         {
             TextObjectDesktop.SetActive(false);
             TextObjectMobile.SetActive(true);
