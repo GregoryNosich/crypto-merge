@@ -18,7 +18,7 @@ public class SpawnController : MonoBehaviour
     private Rigidbody2D component;
     public AudioClip CoinSound;
     public Image NextBall;
-    public TextMeshProUGUI instructions;
+    public GameObject TutorialTextObject;
 
     private void SpawnNewShowCircle()
     {
@@ -49,8 +49,8 @@ public class SpawnController : MonoBehaviour
                 ScoreCounter.Score += collisionController.addScore;
                 Instantiate(prefabToSpawn[nextCircle], clickPosition, Quaternion.identity);
 
-                if (instructions.enabled == true)
-                    instructions.enabled = false;
+                if (TutorialTextObject.activeInHierarchy == true)
+                    TutorialTextObject.SetActive(false);
 
                 PlayAudio();
 
