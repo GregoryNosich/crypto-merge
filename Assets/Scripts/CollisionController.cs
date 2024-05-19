@@ -36,7 +36,6 @@ public class CollisionController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("GameOver");
         if (collider.gameObject.tag == "Finish")
         {
             gameOver = true;
